@@ -7,8 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.TransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import javax.annotation.Resource;
 
@@ -20,6 +24,8 @@ public class TestService {
 
     @Resource
     UserMapper userMapper;
+    @Resource
+    DataSourceTransactionManager dataSourceTransactionManager;
 
     @BeforeEach
     public void init(){
@@ -31,8 +37,10 @@ public class TestService {
 
     @Test
     public void getUsers(){
-        log.info("kkkkkkkk");
+        //这一行代码作用就是开启了事物
+        TransactionStatus transaction = dataSourceTransactionManager.getTransaction(new DefaultTransactionDefinition());
         UserDO userDO = userMapper.selectByPrimaryKey(1L);
-        log.info(JSON.toJSONString(userDO));
+        UserDO userDO1 = userMapper.selectByPrimaryKey(1L);
+        log.info(String.valueOf(userDO1==userDO));;
     }
 }
