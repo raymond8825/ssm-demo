@@ -1,12 +1,12 @@
-package raymond;
+package com.raymond.test;
 
 import com.alibaba.fastjson.JSON;
 import com.raymond.dao.UserMapper;
 import com.raymond.domain.UserDO;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -21,13 +21,17 @@ public class TestService {
     @Resource
     UserMapper userMapper;
 
+    @BeforeEach
+    public void init(){
+    }
     @Test
     public void test(){
-      log.info("llll");
+        log.info("llll");
     }
 
     @Test
     public void getUsers(){
+        log.info("kkkkkkkk");
         UserDO userDO = userMapper.selectByPrimaryKey(1L);
         log.info(JSON.toJSONString(userDO));
     }
